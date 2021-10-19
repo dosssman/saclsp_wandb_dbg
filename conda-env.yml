@@ -104,3 +104,4 @@ dependencies:
     - urllib3==1.26.6
     - wandb==0.10.32
     - werkzeug==2.0.1
+    - moviepy==1.0.3

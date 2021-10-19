@@ -35,7 +35,7 @@ for env_id in "HopperBulletEnv-v0"; do
         --wandb --wandb-project sac_lsp_wandb_histogram_dbg --wandb-entity dosssman \
         --logdir-prefix $WANDB_DIR
     ) >& /dev/null &
-    
+
     # Without histogram logging, now logging video with wandb.Video() too
     # (sleep 1s && python sac_lsp.py \
     #   --exp-name "sac_lsp_wandbvideo" \
