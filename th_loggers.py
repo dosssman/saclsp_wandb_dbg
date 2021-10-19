@@ -138,3 +138,11 @@ class TBXLogger(object):
         fulltag = prefix + "/" + name if prefix is not None else name
         self.tb_writer.add_video(tag=fulltag, vid_tensor=video_data,
             global_step=step, fps=fps)
+        
+        # Logging the video using Wandb.video()
+        if self.args.wandb:
+            wandb.Video(
+                video_data,
+                caption=f"{fulltag}_wandbvideo",
+                fps=60
+            )

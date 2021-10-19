@@ -15,7 +15,7 @@ export CUDA_VISIBLE_DEVICES=0
 for env_id in "HopperBulletEnv-v0"; do
   for seed in 111 ; do
     # Without histogram logging
-    (sleep 1s && nohup xvfb-run -a python sac_lsp.py \
+    (sleep 1s && python sac_lsp.py \
       --env-id $env_id \
       --seed $seed \
       --save-model \
@@ -26,7 +26,7 @@ for env_id in "HopperBulletEnv-v0"; do
     ) >& /dev/null &
 
     # Logs histograms
-    (sleep 1s && nohup xvfb-run -a python sac_lsp_histogram.py \
+    (sleep 1s && python sac_lsp_histogram.py \
         --env-id $env_id \
         --seed $seed \
         --save-model \
@@ -35,6 +35,19 @@ for env_id in "HopperBulletEnv-v0"; do
         --wandb --wandb-project sac_lsp_wandb_histogram_dbg --wandb-entity dosssman \
         --logdir-prefix $WANDB_DIR
     ) >& /dev/null &
+    
+    # Without histogram logging, now logging video with wandb.Video() too
+    # (sleep 1s && python sac_lsp.py \
+    #   --exp-name "sac_lsp_wandbvideo" \
+    #   --env-id $env_id \
+    #   --seed $seed \
+    #   --save-model \
+    #   --save-videos \
+    #   --total-steps 500000 \
+    #   --wandb --wandb-project sac_lsp_wandb_histogram_dbg --wandb-entity dosssman \
+    #   --logdir-prefix $WANDB_DIR
+    # ) >& /dev/null &
+
   done
 done
 ####################################
