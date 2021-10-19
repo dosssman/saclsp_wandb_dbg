@@ -12,6 +12,7 @@ from torchvision.utils import make_grid
 from datetime import datetime
 from socket import gethostname
 
+from utils import video_from_img_list
 class TBXLogger(object):
     def __init__( self, logdir = None, logdir_prefix = None, exp_name = 'default',
         graph = None, args=None):
@@ -141,8 +142,17 @@ class TBXLogger(object):
         
         # Logging the video using Wandb.video()
         if self.args.wandb:
-            wandb.Video(
-                video_data,
-                caption=f"{fulltag}_wandbvideo",
-                fps=60
+            wandb.log(
+                {f"{fulltag}_wandbvideo": wandb.Video(video_data, fps=60)},
+                step=step
             )
+
+        # Alternative, save an explicit mp4 file instead of the default GIF
+        # video_file_path = video_from_img_list(video_data[0].transpose(0,2,3,1), fulltag, self.get_videos_savedir())
+        # if self.args.wandb:
+        #     wandb.log(
+        #         {f"{fulltag}_wandbvideo": wandb.Video(
+        #             video_file_path,
+        #             format="mp4")},
+        #         step=step
+        #     )

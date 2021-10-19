@@ -61,3 +61,15 @@ def scale_frame_video(video_np_data, scale_factor=.25):
         scaled_video_np_data[t] = cv2.resize(frame, scaled_dim[::-1],
                                              interpolation=cv2.INTER_AREA)
     return scaled_video_np_data
+
+# Video saving tools
+default_fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+def video_from_img_list(ep_img_obs, filename, savedir, fps=60, fourcc=default_fourcc):
+    h,w,_ = ep_img_obs[0].shape
+    video_file_path = os.path.join(savedir, f"{filename}.mp4")
+    video = cv2.VideoWriter(video_file_path, fourcc, float(fps), (w, h))
+    for frame in ep_img_obs:
+        video.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+    video.release()
+
+    return video_file_path
